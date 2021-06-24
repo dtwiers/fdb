@@ -1,6 +1,6 @@
 import { pipe } from "fp-ts/lib/function";
 import * as RA from "fp-ts/lib/ReadonlyArray";
-import { EventTiming } from "../src/components/event-timing";
+import { FireworkEvent } from "../src/components/firework-event";
 
 export default function Home() {
   const seconds = pipe(
@@ -9,7 +9,7 @@ export default function Home() {
   );
   return (
     <div style={{ position: "relative" }}>
-      <EventTiming />
+      <FireworkEvent />
       {seconds.map((ss) => (
         <div
           key={ss}
