@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.6.0-rc.1",
+    "bulma": "^0.9.3",
     "date-fns": "^2.22.1",
     "fp-ts": "^2.10.5",
     "fp-ts-std": "^0.10.0",
@@ -17,7 +18,9 @@
     "newtype-ts": "^0.3.4",
     "next": "11.0.0",
     "react": "17.0.2",
+    "react-bulma-components": "^4.0.7",
     "react-dom": "17.0.2",
+    "react-rnd": "^10.3.3",
     "rxjs": "6"
   },
   "devDependencies": {

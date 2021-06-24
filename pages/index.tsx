@@ -1,5 +1,6 @@
 import { pipe } from "fp-ts/lib/function";
 import * as RA from "fp-ts/lib/ReadonlyArray";
+import { EventTiming } from "../src/components/event-timing";
 
 export default function Home() {
   const seconds = pipe(
@@ -7,9 +8,11 @@ export default function Home() {
     RA.filter((n) => !(n % 5))
   );
   return (
-    <div>
+    <div style={{ position: "relative" }}>
+      <EventTiming />
       {seconds.map((ss) => (
         <div
+          key={ss}
           style={{
             padding: 0,
             margin: 0,
