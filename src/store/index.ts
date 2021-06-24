@@ -1,8 +1,8 @@
-import { configureStore } from "@reduxjs/toolkit";
-import { identity } from "fp-ts/lib/function";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { createEpicMiddleware } from "redux-observable";
+import * as CatalogSlice from "./slices/catalog";
 
 export const store = configureStore({
   middleware: [createEpicMiddleware({})],
-  reducer: identity,
+  reducer: combineReducers({catalog: CatalogSlice.reducer}),
 });

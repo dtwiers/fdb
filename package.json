@@ -24,7 +24,7 @@
     "react-rnd": "^10.3.3",
     "redux": "^4.1.0",
     "redux-observable": "2.0.0-rc.2",
-    "reselect": "^4.0.0",
+    "redux-views": "^1.0.3",
     "rxjs": "~7.1.0"
   },
   "devDependencies": {

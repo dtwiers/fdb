@@ -20,7 +20,7 @@ specifiers:
   react-rnd: ^10.3.3
   redux: ^4.1.0
   redux-observable: 2.0.0-rc.2
-  reselect: ^4.0.0
+  redux-views: ^1.0.3
   rxjs: ~7.1.0
   typescript: ^4.3.4
 
@@ -41,7 +41,7 @@ dependencies:
   react-rnd: 10.3.3_react-dom@17.0.2+react@17.0.2
   redux: 4.1.0
   redux-observable: 2.0.0-rc.2_redux@4.1.0
-  reselect: 4.0.0
+  redux-views: 1.0.3
   rxjs: 7.1.0
 
 devDependencies:
@@ -1646,6 +1646,12 @@ packages:
 
   /redux-thunk/2.3.0:
     resolution: {integrity: sha512-km6dclyFnmcvxhAcrQV2AkZmPQjzPDjgVlQtR0EQjxZPyJ0BnMf3in1ryuR8A2qU0HldVRfxYXbFSKlI3N7Slw==}
+    dev: false
+
+  /redux-views/1.0.3:
+    resolution: {integrity: sha512-x4ArakkKF7BiGoU6Y1hCU3zDUrhrSRXQLPJAu1dFxz/nDYzvnotimr/YqaBsOlwYgRMImNIwlu9se56UH8BXcQ==}
+    dependencies:
+      loose-envify: 1.4.0
     dev: false
 
   /redux/4.1.0:
