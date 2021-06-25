@@ -1,4 +1,4 @@
-import { createAction, createReducer, createSelector } from "@reduxjs/toolkit";
+import { createAction, createReducer, createSelector, createSlice } from "@reduxjs/toolkit";
 import * as A from "fp-ts/lib/Array";
 import { identity } from "rxjs";
 import type { RetailUnit } from "../../types";
