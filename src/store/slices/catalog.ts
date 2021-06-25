@@ -3,7 +3,7 @@ import * as A from "fp-ts/lib/Array";
 import { identity } from "rxjs";
 import type { RetailUnit } from "../../types";
 import { Lens } from "monocle-ts";
-import { ensureArray } from "../../util";
+import { ensureArray } from "../../lib/util";
 
 export type Catalog = {
   available: RetailUnit[];
@@ -16,6 +16,8 @@ export type StoreWithCatalog = {
 const initialState: Catalog = {
   available: [],
 };
+
+const catalogAdapter = createEntityAdapter()
 
 const addUnits = createAction("catalog/addUnits", (units: RetailUnit | RetailUnit[]) => ({
   payload: ensureArray(units),
