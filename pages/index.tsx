@@ -1,31 +1,10 @@
-import { pipe } from "fp-ts/lib/function";
-import * as RA from "fp-ts/lib/ReadonlyArray";
 import { FireworkEvent } from "../src/components/firework-event";
+import TimeGrid from "../src/components/time-grid";
 
 export default function Home() {
-  const seconds = pipe(
-    RA.range(0, 1800),
-    RA.filter((n) => !(n % 5))
-  );
   return (
-    <div style={{ position: "relative" }}>
+    <TimeGrid length={1800}>
       <FireworkEvent />
-      {seconds.map((ss) => (
-        <div
-          key={ss}
-          style={{
-            padding: 0,
-            margin: 0,
-            borderBottomColor: "#AABBFF",
-            borderBottomWidth: 2,
-            borderBottomStyle: "dotted",
-            boxSizing: "border-box",
-            height: 12,
-          }}
-        >
-          <span style={{ fontSize: "8pt", margin: 0, padding: 0 }}>{ss}</span>
-        </div>
-      ))}
-    </div>
+    </TimeGrid>
   );
 }
