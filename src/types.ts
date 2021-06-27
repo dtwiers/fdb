@@ -1,15 +1,15 @@
 import { Duration } from "date-fns";
 
-export type FireworkBase<T extends string> = {
-  title: string;
-  manufacturer: string;
+type FireworkBase<T extends string> = {
   _tag: T;
 };
+
+export type WithId<T> = T & { id: string };
 
 export type FireworkSize = "large" | "medium" | "small";
 
 export type WithDuration<T> = T & {
-  duration: Duration;
+  duration: number;
 };
 
 export type WithSize<T> = T & {
@@ -36,18 +36,30 @@ export type ShellEffect =
   | "Flying Fish";
 
 export type ArtilleryShell = FireworkBase<"Artillery Shell"> & {
-  usesStandardConsumerTubes: boolean;
   effects: ShellEffect[];
   color?: string;
+  breakCount: number;
 };
 
 export type Rocket = FireworkBase<"Rocket">;
 
-export type RomanCandle = WithDuration<
-  WithShotCount<FireworkBase<"Roman Candle">>
->;
+export type RomanCandle = WithDuration<WithShotCount<FireworkBase<"Roman Candle">>>;
 
-export type RetailUnit = {
-  items: Rocket[] | RomanCandle[] | ArtilleryShell[] | Fountain[] | Cake[];
-  tubeCount?: number;
+export type PreloadedMortar = FireworkBase<"Preloaded Mortar">;
+
+export type Firework = Rocket | RomanCandle | ArtilleryShell | Fountain | Cake | PreloadedMortar;
+
+type BaseRetailUnit = {
+  title: string;
+  manufacturer: string;
+  description: string;
 };
+
+export type MortarPackage = {
+  _tag: "MortarRetailUnit";
+  tubeCount: number;
+  shells: ArtilleryShell[];
+  nominalSize: number;
+};
+
+export type RetailUnit = BaseRetailUnit & (MortarPackage | Rocket | RomanCandle | Fountain | Cake | PreloadedMortar);

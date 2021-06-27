@@ -1,6 +1,7 @@
 import "../styles/globals.css";
 import { Provider } from "react-redux";
 import { store } from "../src/store";
+import "bulma/css/bulma.css";
 
 function MyApp({ Component, pageProps }) {
   return (

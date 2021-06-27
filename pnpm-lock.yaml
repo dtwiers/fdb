@@ -1,6 +1,7 @@
 lockfileVersion: 5.3
 
 specifiers:
+  '@hookform/resolvers': ^2.6.0
   '@reduxjs/toolkit': ^1.6.0-rc.1
   '@types/node': ^15.12.4
   '@types/react': ^17.0.11
@@ -16,6 +17,7 @@ specifiers:
   react: 17.0.2
   react-bulma-components: ^4.0.7
   react-dom: 17.0.2
+  react-hook-form: ^7.9.0
   react-redux: ^7.2.4
   react-rnd: ^10.3.3
   redux: ^4.1.0
@@ -23,8 +25,10 @@ specifiers:
   redux-views: ^1.0.3
   rxjs: ~7.1.0
   typescript: ^4.3.4
+  zod: ^3.2.0
 
 dependencies:
+  '@hookform/resolvers': 2.6.0_react-hook-form@7.9.0
   '@reduxjs/toolkit': 1.6.0-rc.1_react-redux@7.2.4+react@17.0.2
   bulma: 0.9.3
   date-fns: 2.22.1
@@ -37,12 +41,14 @@ dependencies:
   react: 17.0.2
   react-bulma-components: 4.0.7_0f968bf7c9f2f8c00b6c1814652320de
   react-dom: 17.0.2_react@17.0.2
+  react-hook-form: 7.9.0_react@17.0.2
   react-redux: 7.2.4_react-dom@17.0.2+react@17.0.2
   react-rnd: 10.3.3_react-dom@17.0.2+react@17.0.2
   redux: 4.1.0
   redux-observable: 2.0.0-rc.2_redux@4.1.0
   redux-views: 1.0.3
   rxjs: 7.1.0
+  zod: 3.2.0
 
 devDependencies:
   '@types/node': 15.12.4
@@ -107,6 +113,14 @@ packages:
 
   /@hapi/hoek/9.2.0:
     resolution: {integrity: sha512-sqKVVVOe5ivCaXDWivIJYVSaEgdQK9ul7a4Kity5Iw7u9+wBAPbX1RMSnLLmp7O4Vzj0WOWwMAJsTL00xwaNug==}
+    dev: false
+
+  /@hookform/resolvers/2.6.0_react-hook-form@7.9.0:
+    resolution: {integrity: sha512-1Pbxjc4HEzATEcRsyDfkEQR/3OWaQwbemW9HTTYH+ZiLF2mzafl5Pn++65gwNnJSGzXUp5LIq3Nz2+Cz4m2U8A==}
+    peerDependencies:
+      react-hook-form: ^7.0.0
+    dependencies:
+      react-hook-form: 7.9.0_react@17.0.2
     dev: false
 
   /@next/env/11.0.0:
@@ -1553,6 +1567,14 @@ packages:
       prop-types: 15.7.2
     dev: false
 
+  /react-hook-form/7.9.0_react@17.0.2:
+    resolution: {integrity: sha512-1SazsTvsC5A4jLxc8fIf0bB92kEp4MGjP69k8s+2nI1spHPha5UkLwaebOXhO9vY95aGqcyBU67pRiv+6T5KZQ==}
+    peerDependencies:
+      react: ^16.8.0 || ^17
+    dependencies:
+      react: 17.0.2
+    dev: false
+
   /react-is/16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
 
@@ -2062,4 +2084,8 @@ packages:
   /yocto-queue/0.1.0:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
+    dev: false
+
+  /zod/3.2.0:
+    resolution: {integrity: sha512-yvcO3FZ8URR+LliMGqaW7tlVOOTzmup3vzKEe9Ds7twyJtdhvYa7dIYr0FbD1wVfWC1OuS83vZfHtCKslPuRhA==}
     dev: false
