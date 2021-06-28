@@ -3,7 +3,7 @@ import React from "react";
 import { Button, Modal } from "react-bulma-components";
 import { useForm } from "react-hook-form";
 import { ModalStateManager } from "../lib/modal-state";
-import { RetailUnit } from "../types";
+import { Cake, Fountain, Mortar, PreloadedMortar, RetailUnit, Rocket, RomanCandle } from "../types";
 import { RadioField } from "./form/radio-field";
 import { SelectField } from "./form/select-field";
 import { TextField } from "./form/text-field";
@@ -14,10 +14,23 @@ export type NewRetailUnitModalProps = {
 };
 
 const NewRetailUnitModal: React.FC<NewRetailUnitModalProps> = (props) => {
-  const { register, handleSubmit, watch, reset } = useForm<RetailUnit>({
+  const { register, handleSubmit, watch, reset, control } = useForm<RetailUnit>({
     resolver: async (values) => {
-      const result = await RetailUnit.spa(values);
-      if (result.success) {
+      console.log(values);
+      const parser = {
+        rocket: () => Rocket,
+        cake: () => Cake,
+        fountain: () => Fountain,
+        preloadedMortar: () => PreloadedMortar,
+        mortar: () => Mortar,
+        romanCandle: () => RomanCandle,
+      }[values._tag];
+      if (!parser) {
+        return { values: {}, errors: {_tag: `invalid type: ${values._tag}`}};
+      }
+      const result = await parser().spa(values);
+      // redundant because typescript
+      if (result.success === true) {
         return { values: result.data, errors: {} };
       }
       console.warn(result.error);
@@ -46,25 +59,29 @@ const NewRetailUnitModal: React.FC<NewRetailUnitModalProps> = (props) => {
               fieldName="title"
               fieldLabel="Title"
               register={register}
+              control={control}
             />
             <TextField
               fieldName="manufacturer"
               fieldLabel="Manufacturer"
               register={register}
+              control={control}
             />
             <TextField
               fieldName="description"
               fieldLabel="Description"
               register={register}
+              control={control}
             />
             <SelectField
               fieldName="_tag"
               fieldLabel="Type"
               register={register}
+              control={control}
               values={{
                 "": "-- Select One --",
                 cake: "Cake",
-                mortarRetailUnit: "Artillery Shell",
+                mortar: "Box of Mortars",
                 rocket: "Rocket",
                 fountain: "Fountain",
                 romanCandle: "Roman Candle",
@@ -78,12 +95,14 @@ const NewRetailUnitModal: React.FC<NewRetailUnitModalProps> = (props) => {
                   fieldLabel="Tube Count"
                   type="number"
                   register={register}
+                  control={control}
                 />
                 <TextField
                   fieldName="shellCount"
                   fieldLabel="Number of Shells"
                   type="number"
                   register={register}
+                  control={control}
                 />
               </>
             )}
@@ -93,6 +112,7 @@ const NewRetailUnitModal: React.FC<NewRetailUnitModalProps> = (props) => {
                 fieldName="size"
                 fieldLabel="Size"
                 register={register}
+                control={control}
                 values={{ small: "Small", medium: "Medium", large: "Large" }}
               />
             )}
@@ -103,6 +123,7 @@ const NewRetailUnitModal: React.FC<NewRetailUnitModalProps> = (props) => {
                 fieldLabel="Shot Count"
                 type="number"
                 register={register}
+                control={control}
               />
             )}
             {(currentValues._tag === "cake" ||
@@ -113,6 +134,7 @@ const NewRetailUnitModal: React.FC<NewRetailUnitModalProps> = (props) => {
                 fieldLabel="Duration"
                 type="number"
                 register={register}
+                control={control}
               />
             )}
           </Modal.Card.Body>

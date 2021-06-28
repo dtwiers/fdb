@@ -1,6 +1,6 @@
 import * as z from "zod";
-import * as t from "io-ts";
-import { pipe } from "fp-ts/lib/function";
+
+const InputNumber = z.string().transform(s => s ? Number(s) : undefined);
 
 export const FireworkSize = z.union([
   z.literal("large"),
@@ -13,29 +13,18 @@ export const RetailBase = z.object({
   description: z.string(),
 });
 
-export const RetailBase2 = pipe(
-  t.type({ title: t.string, manufacturer: t.string, description: t.string })
-);
-
-export const Cake2 = pipe(
-  t.type({
-    _tag: t.literal("cake", "cake"),
-    duration: t.number
-  })
-)
-
 export const Cake = z
   .object({
     _tag: z.literal("cake"),
-    duration: z.number().optional(),
+    duration: InputNumber,
     size: FireworkSize,
-    shotCount: z.number().optional(),
+    shotCount: InputNumber,
   }).merge(RetailBase);
 
 export const Fountain = z
   .object({
     _tag: z.literal("fountain"),
-    duration: z.number().optional(),
+    duration: InputNumber,
     size: FireworkSize,
   })
   .merge(RetailBase);
@@ -55,9 +44,9 @@ export const PreloadedMortar = z
 export const RomanCandle = z
   .object({
     _tag: z.literal("romanCandle"),
-    duration: z.number().optional(),
+    duration: InputNumber,
     size: FireworkSize,
-    shotCount: z.number().optional(),
+    shotCount: InputNumber,
   })
   .merge(RetailBase);
 
@@ -76,9 +65,9 @@ export const ShellEffect = z.union([
 export const Mortar = z
   .object({
     _tag: z.literal("mortar"),
-    tubeCount: z.number(),
-    shellCount: z.number(),
-    nominalDiameter: z.number(),
+    tubeCount: InputNumber,
+    shellCount: InputNumber,
+    nominalDiameter: InputNumber,
   })
   .merge(RetailBase);
 

@@ -17,7 +17,7 @@ const Layout: React.FC = () => {
       }}
     >
       <div style={{ flex: 1 }}>
-        <TimeGrid length={900} division={10} divisionHeight={22}></TimeGrid>
+        <TimeGrid length={900} division={10} divisionHeight={30}></TimeGrid>
       </div>
       <div style={{ flexShrink: 1, width: 300 }}>
         <InventoryBar></InventoryBar>
