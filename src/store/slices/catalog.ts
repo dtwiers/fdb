@@ -1,9 +1,15 @@
-import { createEntityAdapter, createSlice } from "@reduxjs/toolkit";
+import { createEntityAdapter, createSlice, EntityState } from "@reduxjs/toolkit";
 import type { RetailUnit } from "../../types";
+
+export type Catalog = EntityState<RetailUnit>;
+
+export type CatalogStore = {
+
+}
 
 const adapter = createEntityAdapter<RetailUnit>();
 
-export default createSlice({
+const slice = createSlice({
   name: "catalog",
   initialState: adapter.getInitialState(),
   reducers: {
@@ -19,3 +25,8 @@ export default createSlice({
     upsertMany: adapter.upsertMany,
   },
 });
+
+export const selectors = adapter.getSelectors();
+export const reducer = slice.reducer;
+export const actions = slice.actions;
+export const name = slice.name;

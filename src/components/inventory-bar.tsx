@@ -1,16 +1,17 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useModalState } from "../lib/modal-state";
-import { default as Inventory, InventoryItem, selectors } from "../store/slices/inventory";
-import { Firework, RetailUnit } from "../types";
+import * as Inventory from "../store/slices/inventory";
+import { RetailUnit } from "../types";
 import NewRetailUnitModal from "./new-retail-unit.modal";
 
 export type InventoryBarProps = {};
 
 const InventoryBar: React.FC<InventoryBarProps> = () => {
-  const inventory = useSelector(selectors.selectAll);
+  const inventory = useSelector(Inventory.selectors.selectAll);
   const dispatch = useDispatch();
-  const addItem = (unit: RetailUnit) => dispatch(Inventory.actions.addRetailUnit(unit));
+  const addItem = (unit: RetailUnit) =>
+    dispatch(Inventory.actions.addRetailUnit(unit));
   const modalManager = useModalState();
 
   return (
@@ -20,7 +21,7 @@ const InventoryBar: React.FC<InventoryBarProps> = () => {
         Add Retail Unit
       </button>
       {inventory.map((item) => (
-        <div key={item.id}>{item}</div>
+        <div key={item.id}>{JSON.stringify(item)}</div>
       ))}
     </div>
   );

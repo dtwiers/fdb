@@ -12,7 +12,7 @@ export type UIStore = {
 const modalLens = Lens.fromProp<UI>()("modalsOpen");
 const sliceLens = Lens.fromProp<UIStore>()("ui");
 
-export default createSlice({
+const slice = createSlice({
   name: "ui",
   initialState: {
     modalsOpen: 0,
@@ -27,3 +27,6 @@ export const selectors = {
   selectUI: sliceLens.get,
   selectModalOpen: sliceLens.composeLens(modalLens).get,
 };
+export const reducer = slice.reducer;
+export const actions = slice.actions;
+export const name = slice.name;

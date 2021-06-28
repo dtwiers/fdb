@@ -1,5 +1,11 @@
-import { createSlice, createEntityAdapter, PayloadAction, EntityState, Update, Action } from "@reduxjs/toolkit";
-import { flow, pipe } from "fp-ts/lib/function";
+import {
+  createEntityAdapter,
+  createSlice,
+  EntityState,
+  PayloadAction,
+  Update,
+} from "@reduxjs/toolkit";
+import { pipe } from "fp-ts/lib/function";
 import { Lens } from "monocle-ts/lib";
 
 export type ShowSong = {
@@ -45,7 +51,7 @@ const fuses = createEntityAdapter<Fuse>({
   sortComparer: startTimeComparer,
 });
 
-export default createSlice({
+const slice = createSlice({
   name: "show",
   initialState: {
     songs: songs.getInitialState(),
@@ -62,7 +68,8 @@ export default createSlice({
       pipe(state, songLens.set(songs.removeOne(state.songs, action.payload))),
     removeSongs: (state, action: PayloadAction<string[]>) =>
       pipe(state, songLens.set(songs.removeMany(state.songs, action.payload))),
-    clearSongs: (state) => pipe(state, songLens.set(songs.removeAll(state.songs))),
+    clearSongs: (state) =>
+      pipe(state, songLens.set(songs.removeAll(state.songs))),
     updateSong: (state, action: PayloadAction<Update<ShowSong>>) =>
       pipe(state, songLens.set(songs.updateOne(state.songs, action.payload))),
     updateSongs: (state, action: PayloadAction<Update<ShowSong>[]>) =>
@@ -82,7 +89,8 @@ export default createSlice({
       pipe(state, fuseLens.set(fuses.removeOne(state.fuses, action.payload))),
     removeFuses: (state, action: PayloadAction<string[]>) =>
       pipe(state, fuseLens.set(fuses.removeMany(state.fuses, action.payload))),
-    clearFuses: (state) => pipe(state, fuseLens.set(fuses.removeAll(state.fuses))),
+    clearFuses: (state) =>
+      pipe(state, fuseLens.set(fuses.removeAll(state.fuses))),
     updateFuse: (state, action: PayloadAction<Update<Fuse>>) =>
       pipe(state, fuseLens.set(fuses.updateOne(state.fuses, action.payload))),
     updateFuses: (state, action: PayloadAction<Update<Fuse>[]>) =>
@@ -106,8 +114,12 @@ const flip =
   (a: A): C =>
     fn(a)(b);
 
-const fuseSelectors = fuses.getSelectors(Lens.fromPath<ShowStore>()(["show", "fuses"]).get);
-const songSelectors = songs.getSelectors(Lens.fromPath<ShowStore>()(["show", "songs"]).get);
+const fuseSelectors = fuses.getSelectors(
+  Lens.fromPath<ShowStore>()(["show", "fuses"]).get
+);
+const songSelectors = songs.getSelectors(
+  Lens.fromPath<ShowStore>()(["show", "songs"]).get
+);
 export const selectors = {
   selectFuses: fuseSelectors.selectAll,
   selectFuseById: curry(fuseSelectors.selectById),
@@ -120,3 +132,6 @@ export const selectors = {
   selectSongIds: songSelectors.selectIds,
   selectSongTotal: songSelectors.selectTotal,
 };
+export const reducer = slice.reducer;
+export const actions = slice.actions;
+export const name = slice.name;

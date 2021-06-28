@@ -13,11 +13,11 @@ const Layout: React.FC = () => {
         flexDirection: "row",
         width: "100%",
         overflow: modalCount ? "hidden" : "auto",
-        maxHeight: modalCount ? "100vh" : "unset",
+        maxHeight: "100vh",
       }}
     >
       <div style={{ flex: 1 }}>
-        <TimeGrid length={900} division={10} divisionHeight={18}></TimeGrid>
+        <TimeGrid length={900} division={10} divisionHeight={22}></TimeGrid>
       </div>
       <div style={{ flexShrink: 1, width: 300 }}>
         <InventoryBar></InventoryBar>

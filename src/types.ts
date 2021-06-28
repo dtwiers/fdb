@@ -1,65 +1,100 @@
-import { Duration } from "date-fns";
+import * as z from "zod";
+import * as t from "io-ts";
+import { pipe } from "fp-ts/lib/function";
 
-type FireworkBase<T extends string> = {
-  _tag: T;
-};
+export const FireworkSize = z.union([
+  z.literal("large"),
+  z.literal("medium"),
+  z.literal("small"),
+]);
+export const RetailBase = z.object({
+  title: z.string().nonempty(),
+  manufacturer: z.string(),
+  description: z.string(),
+});
 
-export type WithId<T> = T & { id: string };
+export const RetailBase2 = pipe(
+  t.type({ title: t.string, manufacturer: t.string, description: t.string })
+);
 
-export type FireworkSize = "large" | "medium" | "small";
+export const Cake2 = pipe(
+  t.type({
+    _tag: t.literal("cake", "cake"),
+    duration: t.number
+  })
+)
 
-export type WithDuration<T> = T & {
-  duration: number;
-};
+export const Cake = z
+  .object({
+    _tag: z.literal("cake"),
+    duration: z.number().optional(),
+    size: FireworkSize,
+    shotCount: z.number().optional(),
+  }).merge(RetailBase);
 
-export type WithSize<T> = T & {
-  size: FireworkSize;
-};
+export const Fountain = z
+  .object({
+    _tag: z.literal("fountain"),
+    duration: z.number().optional(),
+    size: FireworkSize,
+  })
+  .merge(RetailBase);
 
-export type WithShotCount<T> = T & {
-  shotCount: number;
-};
+export const Rocket = z
+  .object({
+    _tag: z.literal("rocket"),
+  })
+  .merge(RetailBase);
 
-export type Cake = WithDuration<WithSize<WithShotCount<FireworkBase<"Cake">>>>;
+export const PreloadedMortar = z
+  .object({
+    _tag: z.literal("preloadedMortar"),
+  })
+  .merge(RetailBase);
 
-export type Fountain = WithDuration<WithSize<FireworkBase<"Fountain">>>;
+export const RomanCandle = z
+  .object({
+    _tag: z.literal("romanCandle"),
+    duration: z.number().optional(),
+    size: FireworkSize,
+    shotCount: z.number().optional(),
+  })
+  .merge(RetailBase);
 
-export type ShellEffect =
-  | "Brocade"
-  | "Chrysanthemum"
-  | "Willow"
-  | "Strobe"
-  | "Salute"
-  | "Peony"
-  | "Nishiki"
-  | "Tourbillion"
-  | "Flying Fish";
+export const ShellEffect = z.union([
+  z.literal("brocade"),
+  z.literal("chrysanthemum"),
+  z.literal("willow"),
+  z.literal("strobe"),
+  z.literal("salute"),
+  z.literal("peony"),
+  z.literal("nishiki"),
+  z.literal("tourbillion"),
+  z.literal("flyingFish"),
+]);
 
-export type ArtilleryShell = FireworkBase<"Artillery Shell"> & {
-  effects: ShellEffect[];
-  color?: string;
-  breakCount: number;
-};
+export const Mortar = z
+  .object({
+    _tag: z.literal("mortar"),
+    tubeCount: z.number(),
+    shellCount: z.number(),
+    nominalDiameter: z.number(),
+  })
+  .merge(RetailBase);
 
-export type Rocket = FireworkBase<"Rocket">;
+export const RetailUnit = z.union([
+  Mortar,
+  RomanCandle,
+  PreloadedMortar,
+  Rocket,
+  Fountain,
+  Cake,
+]);
 
-export type RomanCandle = WithDuration<WithShotCount<FireworkBase<"Roman Candle">>>;
-
-export type PreloadedMortar = FireworkBase<"Preloaded Mortar">;
-
-export type Firework = Rocket | RomanCandle | ArtilleryShell | Fountain | Cake | PreloadedMortar;
-
-type BaseRetailUnit = {
-  title: string;
-  manufacturer: string;
-  description: string;
-};
-
-export type MortarPackage = {
-  _tag: "MortarRetailUnit";
-  tubeCount: number;
-  shells: ArtilleryShell[];
-  nominalSize: number;
-};
-
-export type RetailUnit = BaseRetailUnit & (MortarPackage | Rocket | RomanCandle | Fountain | Cake | PreloadedMortar);
+export type RetailUnit = z.infer<typeof RetailUnit>;
+export type Mortar = z.infer<typeof Mortar>;
+export type RomanCandle = z.infer<typeof RomanCandle>;
+export type PreloadedMortar = z.infer<typeof PreloadedMortar>;
+export type Rocket = z.infer<typeof Rocket>;
+export type Fountain = z.infer<typeof Fountain>;
+export type Cake = z.infer<typeof Cake>;

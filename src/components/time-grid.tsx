@@ -14,26 +14,34 @@ const TimeGrid: React.FC<TimeGridProps> = (props) => {
     RA.filter((n) => !(n % props.division))
   );
   return (
-    <div style={{ height: "100%" }}>
-      <div style={{ position: "relative", overflowY: "scroll" }}>
-        {props.children}
-        {seconds.map((ss) => (
+    <div style={{ height: "100vh", position: "relative", overflowY: "scroll" }}>
+      {props.children}
+      {seconds.map((ss) => (
+        <div
+          key={ss}
+          style={{
+            padding: 0,
+            margin: 0,
+            borderBottomColor: "#BBCCFF",
+            borderBottomWidth: 2,
+            borderBottomStyle: "dotted",
+            boxSizing: "border-box",
+            height: props.divisionHeight,
+          }}
+        >
           <div
-            key={ss}
             style={{
-              padding: 0,
+              fontSize: "8pt",
               margin: 0,
-              borderBottomColor: "#BBCCFF",
-              borderBottomWidth: 2,
-              borderBottomStyle: "dotted",
-              boxSizing: "border-box",
-              height: props.divisionHeight,
+              padding: 0,
+              marginTop: -8,
+              top: 0,
             }}
           >
-            <div style={{ fontSize: "8pt", margin: 0, padding: 0, marginTop: -8, top: 0 }}>{formatDuration(ss)}</div>
+            {formatDuration(ss)}
           </div>
-        ))}
-      </div>
+        </div>
+      ))}
     </div>
   );
 };

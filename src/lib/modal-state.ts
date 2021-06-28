@@ -1,7 +1,7 @@
 import { Lazy } from "fp-ts/lib/function";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { default as UI } from "../store/slices/ui";
+import * as UI from "../store/slices/ui";
 
 export type ModalState = "showing" | "hidden";
 

@@ -1,10 +1,10 @@
 import { createEntityAdapter, createSlice, EntityState, nanoid, PayloadAction } from "@reduxjs/toolkit";
-import type { Firework, RetailUnit } from "../../types";
-import { pipe } from "fp-ts/lib/function";
 import * as A from "fp-ts/lib/Array";
+import { pipe } from "fp-ts/lib/function";
+import type { RetailUnit } from "../../types";
 
 export type InventoryItem = {
-  item: Firework;
+  item: RetailUnit;
   usedInCurrentShow: boolean;
   id: string;
 };
@@ -15,7 +15,7 @@ export type InventoryStore = {
 
 const adapter = createEntityAdapter<InventoryItem>();
 
-export default createSlice({
+const slice = createSlice({
   name: "inventory",
   initialState: adapter.getInitialState(),
   reducers: {
@@ -34,10 +34,13 @@ export default createSlice({
     releaseFromShow: (state, action: PayloadAction<string>) =>
       adapter.updateOne(state, { changes: { usedInCurrentShow: false }, id: action.payload }),
     addRetailUnit: (state, action: PayloadAction<RetailUnit>) => {
-      if (action.payload._tag === "MortarRetailUnit") {
+      if (action.payload._tag === "mortar") {
         return adapter.addMany(
           state,
-          action.payload.shells.map((shell) => ({ id: nanoid(), usedInCurrentShow: false, item: shell }))
+          pipe(
+            A.range(1, action.payload.shellCount),
+            A.map(num => ({id: nanoid(), usedInCurrentShow: false, item: action.payload}))
+          )
         );
       }
       return adapter.addOne(state, { item: action.payload, id: nanoid(), usedInCurrentShow: false });
@@ -46,3 +49,6 @@ export default createSlice({
 });
 
 export const selectors = adapter.getSelectors((store: InventoryStore) => store.inventory);
+export const reducer = slice.reducer;
+export const name = slice.name;
+export const actions = slice.actions;
