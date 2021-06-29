@@ -1,16 +1,53 @@
-import { Form } from "react-bulma-components";
+import React, { useMemo } from "react";
+import { Content, Form } from "react-bulma-components";
+import { useFormState } from "react-hook-form";
 import { AnyRegistration } from "./types";
 import { withDomRef } from "./util";
 
-export const RadioField: React.FC<AnyRegistration & { values: Record<string, string> }> = (props) => (
-  <Form.Field>
-    <Form.Label>{props.fieldLabel}</Form.Label>
-    <Form.Control>
-      {Object.entries(props.values).map(([key, value]) => (
-        <Form.Radio key={key} {...(withDomRef(props.register(props.fieldName)) as any)} value={key}>
-          {value}
-        </Form.Radio>
-      ))}
-    </Form.Control>
-  </Form.Field>
-);
+export const RadioField: React.FC<
+  AnyRegistration & { values: Record<string, string> }
+> = (props) => {
+  const { errors } = useFormState({
+    control: props.control as any,
+    name: props.fieldName,
+  });
+  const pertinentErrors = useMemo(
+    () =>
+      Array.isArray(errors?.issues)
+        ? (errors.issues as any[]).filter((e) =>
+            e.path?.includes(props.fieldName)
+          )
+        : [],
+    [errors, props.fieldName]
+  );
+  return (
+    <Form.Field>
+      <Form.Label>
+        {props.fieldLabel}
+        {props.required && (
+          <Content renderAs="span" textColor="primary" pl={1}>
+            *
+          </Content>
+        )}
+      </Form.Label>
+      <Form.Control>
+        {Object.entries(props.values).map(([key, value]) => (
+          <Form.Radio
+            defaultValue={props.defaultValue}
+            color={pertinentErrors.length ? "danger" : ""}
+            key={key}
+            {...(withDomRef(props.register(props.fieldName)) as any)}
+            value={key}
+          >
+            {value}
+          </Form.Radio>
+        ))}
+        {pertinentErrors.map((e) => (
+          <Form.Help key={JSON.stringify(e)} color="danger">
+            {e.message}
+          </Form.Help>
+        ))}
+      </Form.Control>
+    </Form.Field>
+  );
+};

@@ -1,23 +1,45 @@
-import { Form } from "react-bulma-components";
+import React, { useMemo } from "react";
+import { Content, Form } from "react-bulma-components";
+import { useFormState } from "react-hook-form";
 import { AnyRegistration } from "./types";
 import { withDomRef } from "./util";
-import { useFormState } from "react-hook-form";
 
 export const TextField: React.FC<AnyRegistration> = (props) => {
-  const { errors, isValid } = useFormState({
+  const { errors } = useFormState({
     control: props.control as any,
     name: props.fieldName,
   });
+  const pertinentErrors = useMemo(
+    () =>
+      Array.isArray(errors?.issues)
+        ? (errors.issues as any[]).filter((e) =>
+            e.path?.includes(props.fieldName)
+          )
+        : [],
+    [errors, props.fieldName]
+  );
   return (
     <Form.Field>
-      <Form.Label>{props.fieldLabel}</Form.Label>
+      <Form.Label>
+        {props.fieldLabel}
+        {props.required && (
+          <Content renderAs="span" textColor="primary" pl={1}>
+            *
+          </Content>
+        )}
+      </Form.Label>
       <Form.Control>
         <Form.Input
-          color={isValid ? "black" : "danger"}
+          defaultValue={props.defaultValue}
+          color={pertinentErrors.length ? "danger" : ""}
           {...(withDomRef(props.register(props.fieldName, {})) as any)}
           {...(props.type ? { type: props.type } : {})}
         />
-        {!isValid && <Form.Help color="danger">{errors[props.fieldName]}</Form.Help>}
+        {pertinentErrors.map((e) => (
+          <Form.Help key={JSON.stringify(e)} color="danger">
+            {e.message}
+          </Form.Help>
+        ))}
       </Form.Control>
     </Form.Field>
   );

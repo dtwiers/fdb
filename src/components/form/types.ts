@@ -6,4 +6,6 @@ export type AnyRegistration = {
   register: UseFormRegister<any>;
   control: object;
   type?: string;
+  defaultValue?: any;
+  required?: boolean;
 };

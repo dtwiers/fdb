@@ -18,7 +18,7 @@ const InventoryBar: React.FC<InventoryBarProps> = () => {
   return (
     <div>
       <NewRetailUnitModal state={modalManager} onSave={addItem} />
-      <Button type="button" onClick={modalManager.show}>
+      <Button type="button" color="dark" onClick={modalManager.show}>
         Add Retail Unit
       </Button>
       {inventory.map((item) => (

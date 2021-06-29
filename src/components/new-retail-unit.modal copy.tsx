@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Content, Modal } from "react-bulma-components";
-import { useForm, useFormState } from "react-hook-form";
 import { ModalStateManager } from "../lib/modal-state";
 import {
   Cake,
@@ -21,44 +20,7 @@ export type NewRetailUnitModalProps = {
 };
 
 const NewRetailUnitModal: React.FC<NewRetailUnitModalProps> = (props) => {
-  const { register, handleSubmit, watch, reset, control } = useForm<RetailUnit>(
-    {
-      resolver: async (values) => {
-        const parser = {
-          rocket: () => Rocket,
-          cake: () => Cake,
-          fountain: () => Fountain,
-          preloadedMortar: () => PreloadedMortar,
-          mortar: () => Mortar,
-          romanCandle: () => RomanCandle,
-        }[values._tag];
-        if (!parser) {
-          return {
-            values: {},
-            errors: { _tag: `invalid type: ${values._tag}` },
-          };
-        }
-        const result = await parser().spa(values);
-        // redundant because typescript
-        if (result.success === true) {
-          return { values: result.data, errors: {} };
-        }
-        return { values: {}, errors: result.error };
-      },
-    }
-  );
-  const { errors } = useFormState({ control });
-  const cancel = () => {
-    reset();
-    props.state.hide();
-  };
-  const submit = (retailUnit: RetailUnit) => {
-    props.onSave(retailUnit);
-    props.state.hide();
-    reset();
-  };
-  const { _tag } = watch();
-  console.log(_tag)
+  const [state, setState] = useState
   return (
     <Modal show={props.state.isShowing} onClose={cancel} closeOnBlur closeOnEsc>
       <form onSubmit={handleSubmit(submit)}>
