@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Content, Modal } from "react-bulma-components";
 import { useForm, useFormState } from "react-hook-form";
 import { ModalStateManager } from "../lib/modal-state";
 import {
   Cake,
+  FireworkBase,
   Fountain,
   Mortar,
   PreloadedMortar,
+  RetailBase,
   RetailUnit,
   Rocket,
   RomanCandle,
@@ -19,6 +21,15 @@ export type NewRetailUnitModalProps = {
   onSave: (unit: RetailUnit) => void;
   state: ModalStateManager;
 };
+
+const tags: FireworkBase["_tag"][] = [
+  "cake",
+  "fountain",
+  "preloadedMortar",
+  "mortar",
+  "rocket",
+  "romanCandle",
+];
 
 const NewRetailUnitModal: React.FC<NewRetailUnitModalProps> = (props) => {
   const { register, handleSubmit, watch, reset, control } = useForm<RetailUnit>(
@@ -57,8 +68,8 @@ const NewRetailUnitModal: React.FC<NewRetailUnitModalProps> = (props) => {
     props.state.hide();
     reset();
   };
-  const { _tag } = watch();
-  console.log(_tag)
+  const [tag, setTag] = useState<FireworkBase["_tag"]>("cake");
+  console.log(tag);
   return (
     <Modal show={props.state.isShowing} onClose={cancel} closeOnBlur closeOnEsc>
       <form onSubmit={handleSubmit(submit)}>
@@ -66,7 +77,20 @@ const NewRetailUnitModal: React.FC<NewRetailUnitModalProps> = (props) => {
           <Modal.Card.Header>
             <Modal.Card.Title>New Firework Retail Unit</Modal.Card.Title>
           </Modal.Card.Header>
-          <Modal.Card.Body style={{ overflowY: "auto" }}>
+          <Modal.Card.Body >
+            <Button.Group hasAddons>
+              {tags.map((t) => (
+                <Button
+                  key={t}
+                  color="dark"
+                  outlined={tag !== t}
+                  onClick={() => setTag(t)}
+                  style={{padding: 12}}
+                >
+                  {t}
+                </Button>
+              ))}
+            </Button.Group>
             <Content textColor="danger">{JSON.stringify(errors)}</Content>
             <TextField
               fieldName="title"
@@ -87,23 +111,7 @@ const NewRetailUnitModal: React.FC<NewRetailUnitModalProps> = (props) => {
               register={register}
               control={control}
             />
-            <SelectField
-              fieldName="_tag"
-              fieldLabel="Type"
-              register={register}
-              control={control}
-              required
-              values={{
-                "": "-- Select One --",
-                cake: "Cake",
-                mortar: "Box of Mortars",
-                rocket: "Rocket",
-                fountain: "Fountain",
-                romanCandle: "Roman Candle",
-                preloadedMortar: "Preloaded Mortar",
-              }}
-            />
-            {_tag === "mortar" && (
+            {tag === "mortar" && (
               <>
                 <TextField
                   fieldName="tubeCount"
@@ -131,7 +139,7 @@ const NewRetailUnitModal: React.FC<NewRetailUnitModalProps> = (props) => {
                 />
               </>
             )}
-            {(_tag === "cake" || _tag === "fountain") && (
+            {(tag === "cake" || tag === "fountain") && (
               <RadioField
                 fieldName="size"
                 fieldLabel="Size"
@@ -141,7 +149,7 @@ const NewRetailUnitModal: React.FC<NewRetailUnitModalProps> = (props) => {
                 values={{ small: "Small", medium: "Medium", large: "Large" }}
               />
             )}
-            {(_tag === "cake" || _tag === "romanCandle") && (
+            {(tag === "cake" || tag === "romanCandle") && (
               <TextField
                 fieldName="shotCount"
                 fieldLabel="Shot Count"
@@ -150,9 +158,9 @@ const NewRetailUnitModal: React.FC<NewRetailUnitModalProps> = (props) => {
                 control={control}
               />
             )}
-            {(_tag === "cake" ||
-              _tag === "fountain" ||
-              _tag === "romanCandle") && (
+            {(tag === "cake" ||
+              tag === "fountain" ||
+              tag === "romanCandle") && (
               <TextField
                 fieldName="duration"
                 fieldLabel="Duration"
