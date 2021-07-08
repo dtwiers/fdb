@@ -77,7 +77,7 @@ const NewRetailUnitModal: React.FC<NewRetailUnitModalProps> = (props) => {
           <Modal.Card.Header>
             <Modal.Card.Title>New Firework Retail Unit</Modal.Card.Title>
           </Modal.Card.Header>
-          <Modal.Card.Body >
+          <Modal.Card.Body>
             <Button.Group hasAddons>
               {tags.map((t) => (
                 <Button

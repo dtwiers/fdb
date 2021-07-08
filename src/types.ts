@@ -16,7 +16,6 @@ export const RetailBase = z.object({
   description: z.string(),
 });
 
-
 export const CakeBase = z.object({
   _tag: z.literal("cake"),
   duration: InputNumber,
@@ -72,7 +71,6 @@ export const FireworkBase = z.union([
   FountainBase,
   CakeBase,
 ]);
-
 
 export const Mortar = MortarBase.merge(RetailBase);
 export const RomanCandle = RomanCandleBase.merge(RetailBase);

@@ -1,4 +1,4 @@
-import { Lazy } from "fp-ts/lib/function";
+import { IO } from "fp-ts/lib/IO";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import * as UI from "../store/slices/ui";
@@ -6,10 +6,10 @@ import * as UI from "../store/slices/ui";
 export type ModalState = "showing" | "hidden";
 
 export type ModalStateManager = {
-  reset: Lazy<void>;
-  show: Lazy<void>;
-  hide: Lazy<void>;
-  toggle: Lazy<void>;
+  reset: IO<void>;
+  show: IO<void>;
+  hide: IO<void>;
+  toggle: IO<void>;
   isShowing: boolean;
 };
 
